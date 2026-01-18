@@ -5,9 +5,6 @@
 #include <vector>
 
 
-void helloWorld() {
-    std::cout << "Heja" << std::endl;
-}
 
 int main() {
     std::ifstream file("data.csv");
@@ -17,7 +14,6 @@ int main() {
         std::cerr << "Error opening csv file." << std::endl;
         return 1;
     }
-    helloWorld();
 
     while (std::getline(file, line)) {
         std::stringstream ss(line);

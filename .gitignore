@@ -1,0 +1,8 @@
+*.env
+*.ilk
+*.pdb
+*.exe
+*.obj
+*.suo
+*.user
+*.o
