@@ -4,10 +4,19 @@
 #include <string>
 #include <vector>
 
+// csv rows will be date, gender, bodyweight, totallifted, weight type (metric or imperial), formula type
 
+struct Workout {
+    std::string date;
+    char sex;
+    double bodyWeight;
+    double totalLifted;
+    std::string weightType;
+    std::string formula;
+};
 
 int main() {
-    std::ifstream file("data.csv");
+    std::ifstream file("workouts.txt");
     std::string line;
 
     if (!file.is_open()) {
@@ -22,6 +31,7 @@ int main() {
 
         while (std::getline(ss, cell, ',')) {
             row.push_back(cell);
+            std::cout << cell << std::endl;
         }
 
         if (!row.empty()) {

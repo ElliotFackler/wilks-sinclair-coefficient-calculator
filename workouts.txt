@@ -1,0 +1,6 @@
+Date,Gender,Bodyweight,TotalLifted,WeightUnit,FormulaType
+2025-12-01,M,82.5,450,kgs,Wilks
+2025-12-15,M,83.0,1000,lbs,Wilks
+2026-01-02,M,82.1,465,kgs,Sinclair
+2026-01-10,M,181.5,1050,lbs,Wilks
+2026-01-18,M,82.0,480,kgs,Sinclair
