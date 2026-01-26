@@ -3,19 +3,10 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "utils.h"
 
 // Constant to convert from pounds to kilograms
 const double LBS_TO_KGS = 0.453592;
-
-// csv rows will be date, gender, bodyweight, totallifted, weight type (metric or imperial), formula type
-struct Workout {
-    std::string date;
-    char sex;
-    double bodyWeight;
-    double totalLifted;
-    std::string weightType;
-    std::string formula;
-};
 
 int main() {
     // Choose the file to open.
@@ -28,6 +19,9 @@ int main() {
         return 1;
     }
 
+    // Vector to store all workout structs
+    std::vector<Workout> workouts;
+
     // Iterate past the title line.
     std::getline(file, line);
 
@@ -38,18 +32,32 @@ int main() {
         std::string cell;
         std::vector<std::string> row;
 
+        Workout workout;
+
         // Iterate through each item in the line
         while (std::getline(ss, cell, ',')) {
             row.push_back(cell);
-            std::cout << cell << std::endl;
         }
 
-        // If the file contains no data
+        // Populate the workout struct with parsed data
         if (!row.empty()) {
-            std::cout << "Value" << row[0] << std::endl;
+            workout.date = row[0];
+            workout.sex = row[1][0];  // First character of gender
+            workout.bodyWeight = std::stod(row[2]);
+            workout.totalLifted = std::stod(row[3]);
+            workout.weightType = row[4];
+            workout.formula = row[5];
+
+            // Add the workout to the array
+            workouts.push_back(workout);
+
+            // Analyze the workout
+            analyzeHistory(workout);
         }
     }
 
+    // Display summary of loaded workouts
+    std::cout << "Loaded " << workouts.size() << " workout(s)." << std::endl;
 
     // Close the file and terminate the run
     file.close();
