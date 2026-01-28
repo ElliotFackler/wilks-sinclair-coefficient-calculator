@@ -5,9 +5,6 @@
 #include <vector>
 #include "utils.h"
 
-// Constant to convert from pounds to kilograms
-const double LBS_TO_KGS = 0.453592;
-
 int main() {
     // Choose the file to open.
     std::ifstream file("workouts.txt");
@@ -50,16 +47,22 @@ int main() {
 
             // Add the workout to the array
             workouts.push_back(workout);
-
-            // Analyze the workout
-            analyzeHistory(workout);
         }
     }
 
     // Display summary of loaded workouts
     std::cout << "Loaded " << workouts.size() << " workout(s)." << std::endl;
 
-    // Close the file and terminate the run
+    // Close the file
     file.close();
+
+    // Menu loop
+    int choice;
+    do {
+        displayMenu();
+        choice = getUserChoice();
+        handleMenuSelection(choice, workouts);
+    } while (choice != 4);
+
     return 0;
 }
