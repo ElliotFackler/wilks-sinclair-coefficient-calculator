@@ -62,7 +62,7 @@ int main() {
         displayMenu();
         choice = getUserChoice();
         handleMenuSelection(choice, workouts);
-    } while (choice != 4);
+    } while (choice != 5);
 
     return 0;
 }

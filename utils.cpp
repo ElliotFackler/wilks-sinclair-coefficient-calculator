@@ -83,6 +83,119 @@ void analyzeHistory(Workout workout) {
     }
 }
 
+// Display gender-based analysis
+void displayGenderAnalysis(const std::vector<Workout>& workouts) {
+    std::cout << "\n--- Gender-Based Analysis ---\n";
+    
+    // Separate workouts by gender
+    std::vector<Workout> maleWorkouts, femaleWorkouts;
+    for (const auto& workout : workouts) {
+        if (workout.sex == 'M' || workout.sex == 'm') {
+            maleWorkouts.push_back(workout);
+        } else {
+            femaleWorkouts.push_back(workout);
+        }
+    }
+
+    // Analyze male workouts
+    if (!maleWorkouts.empty()) {
+        std::cout << "\n--- Male Workouts ---\n";
+        std::cout << std::left << std::setw(12) << "Date" << std::setw(12) << "Bodyweight" 
+                  << std::setw(8) << "Wilks" << "Sinclair\n";
+        std::cout << "------------------------------------------\n";
+
+        double totalWilks = 0, totalSinclair = 0, totalBodyWeight = 0;
+        int bestWilksIndex = 0, bestSinclairIndex = 0;
+        int bestWilksScore = 0, bestSinclairScore = 0;
+
+        for (size_t i = 0; i < maleWorkouts.size(); i++) {
+            Workout w = maleWorkouts[i];
+            if (w.weightType == "lbs") {
+                w.bodyWeight = w.bodyWeight * LBS_TO_KGS;
+                w.totalLifted = w.totalLifted * LBS_TO_KGS;
+            }
+            int wilks = calculateWilks(w);
+            int sinclair = calculateSinclair(w);
+
+            std::cout << std::left << std::setw(12) << maleWorkouts[i].date 
+                      << std::setw(12) << w.bodyWeight
+                      << std::setw(8) << wilks << sinclair << std::endl;
+
+            totalWilks += wilks;
+            totalSinclair += sinclair;
+            totalBodyWeight += w.bodyWeight;
+
+            if (wilks > bestWilksScore) {
+                bestWilksScore = wilks;
+                bestWilksIndex = i;
+            }
+            if (sinclair > bestSinclairScore) {
+                bestSinclairScore = sinclair;
+                bestSinclairIndex = i;
+            }
+        }
+
+        std::cout << "\nMale Statistics:\n";
+        std::cout << "  Workouts: " << maleWorkouts.size() << "\n";
+        std::cout << "  Avg Wilks: " << (int)(totalWilks / maleWorkouts.size()) << "\n";
+        std::cout << "  Avg Sinclair: " << (int)(totalSinclair / maleWorkouts.size()) << "\n";
+        std::cout << "  Avg Bodyweight: " << (totalBodyWeight / maleWorkouts.size()) << " kg\n";
+        std::cout << "  Best Wilks: " << bestWilksScore << " (" << maleWorkouts[bestWilksIndex].date << ")\n";
+        std::cout << "  Best Sinclair: " << bestSinclairScore << " (" << maleWorkouts[bestSinclairIndex].date << ")\n";
+    }
+
+    // Analyze female workouts
+    if (!femaleWorkouts.empty()) {
+        std::cout << "\n--- Female Workouts ---\n";
+        std::cout << std::left << std::setw(12) << "Date" << std::setw(12) << "Bodyweight" 
+                  << std::setw(8) << "Wilks" << "Sinclair\n";
+        std::cout << "------------------------------------------\n";
+
+        double totalWilks = 0, totalSinclair = 0, totalBodyWeight = 0;
+        int bestWilksIndex = 0, bestSinclairIndex = 0;
+        int bestWilksScore = 0, bestSinclairScore = 0;
+
+        for (size_t i = 0; i < femaleWorkouts.size(); i++) {
+            Workout w = femaleWorkouts[i];
+            if (w.weightType == "lbs") {
+                w.bodyWeight = w.bodyWeight * LBS_TO_KGS;
+                w.totalLifted = w.totalLifted * LBS_TO_KGS;
+            }
+            int wilks = calculateWilks(w);
+            int sinclair = calculateSinclair(w);
+
+            std::cout << std::left << std::setw(12) << femaleWorkouts[i].date 
+                      << std::setw(12) << w.bodyWeight
+                      << std::setw(8) << wilks << sinclair << std::endl;
+
+            totalWilks += wilks;
+            totalSinclair += sinclair;
+            totalBodyWeight += w.bodyWeight;
+
+            if (wilks > bestWilksScore) {
+                bestWilksScore = wilks;
+                bestWilksIndex = i;
+            }
+            if (sinclair > bestSinclairScore) {
+                bestSinclairScore = sinclair;
+                bestSinclairIndex = i;
+            }
+        }
+
+        std::cout << "\nFemale Statistics:\n";
+        std::cout << "  Workouts: " << femaleWorkouts.size() << "\n";
+        std::cout << "  Avg Wilks: " << (int)(totalWilks / femaleWorkouts.size()) << "\n";
+        std::cout << "  Avg Sinclair: " << (int)(totalSinclair / femaleWorkouts.size()) << "\n";
+        std::cout << "  Avg Bodyweight: " << (totalBodyWeight / femaleWorkouts.size()) << " kg\n";
+        std::cout << "  Best Wilks: " << bestWilksScore << " (" << femaleWorkouts[bestWilksIndex].date << ")\n";
+        std::cout << "  Best Sinclair: " << bestSinclairScore << " (" << femaleWorkouts[bestSinclairIndex].date << ")\n";
+    }
+
+    if (maleWorkouts.empty() && femaleWorkouts.empty()) {
+        std::cout << "No workouts to analyze.\n";
+    }
+}
+
 // Display all workouts with analysis
 void displayAllWorkouts(const std::vector<Workout>& workouts) {
     std::cout << "\n--- All Workouts ---\n";
@@ -111,14 +224,15 @@ void displayMenu() {
     std::cout << "1. View all workouts\n";
     std::cout << "2. View best Wilks lift\n";
     std::cout << "3. View best Sinclair lift\n";
-    std::cout << "4. Exit\n";
+    std::cout << "4. Gender-based analysis\n";
+    std::cout << "5. Exit\n";
     std::cout << "==========================\n";
 }
 
 // Get user choice
 int getUserChoice() {
     int choice;
-    std::cout << "Enter your choice (1-4): ";
+    std::cout << "Enter your choice (1-5): ";
     std::cin >> choice;
     return choice;
 }
@@ -189,6 +303,9 @@ void handleMenuSelection(int choice, const std::vector<Workout>& workouts) {
             break;
         }
         case 4:
+            displayGenderAnalysis(workouts);
+            break;
+        case 5:
             std::cout << "Exiting...\n";
             break;
         default:

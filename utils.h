@@ -19,6 +19,7 @@ struct Workout {
 
 void analyzeHistory(Workout workout);
 void displayAllWorkouts(const std::vector<Workout>& workouts);
+void displayGenderAnalysis(const std::vector<Workout>& workouts);
 void displayMenu();
 int getUserChoice();
 void handleMenuSelection(int choice, const std::vector<Workout>& workouts);
