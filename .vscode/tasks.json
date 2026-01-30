@@ -8,12 +8,13 @@
                 "/Zi",
                 "/EHsc",
                 "/nologo",
-                "/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "${fileDirname}\\main.cpp",
-                "${fileDirname}\\utils.cpp"
+                "/I${workspaceFolder}\\src\\core",
+                "/Fe${workspaceFolder}\\src\\main.exe",
+                "${workspaceFolder}\\src\\main.cpp",
+                "${workspaceFolder}\\src\\core\\utils.cpp"
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}\\src"
             },
             "problemMatcher": [
                 "$msCompile"
