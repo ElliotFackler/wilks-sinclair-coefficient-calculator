@@ -1,14 +1,33 @@
 {
   "version": 3,
-  "cmakeMinimumRequired": {
-    "major": 3,
-    "minor": 19
-  },
   "configurePresets": [
     {
-      "name": "default",
+      "name": "base",
+      "hidden": true,
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build"
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "YES"
+      }
+    },
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "description": "Debug build with symbols (for development)",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Release",
+      "description": "Release build with optimizations (for users)",
+      "inherits": "base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
     }
   ]
 }
