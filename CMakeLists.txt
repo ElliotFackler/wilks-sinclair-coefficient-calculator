@@ -21,4 +21,4 @@ FetchContent_Declare(imgui
  # Download the libraries from github
  FetchContent_MakeAvailable(imgui implot glfw)
 
-add_executable(wilks-sinclair main.cpp utils.cpp)
+add_executable(wilks-sinclair src/main.cpp src/core/utils.cpp)
