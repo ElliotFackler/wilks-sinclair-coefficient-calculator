@@ -22,3 +22,5 @@ FetchContent_Declare(imgui
  FetchContent_MakeAvailable(imgui implot glfw)
 
 add_executable(wilks-sinclair src/main.cpp src/core/utils.cpp)
+
+target_include_directories(wilks-sinclair PRIVATE src/core)

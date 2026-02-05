@@ -5,6 +5,8 @@
 #include <vector>
 #include "utils.h"
 
+//$env:Path += ";C:\Program Files\CMake\bin"
+
 int main() {
     // Choose the file to open.
     std::ifstream file("workouts.txt");
